@@ -1,27 +1,45 @@
 import Form from "@rjsf/core";
-import Ajv from 'ajv';
+
+import csc from 'country-state-city';
+import definitions from './definitions';
 
 function App() {
+  const countries = csc.getAllCountries();
+  const countryArray = countries.map(country => ([
+        country.name,
+        country.isoCode,
+    ]));
+  const countryEntries = Object.fromEntries(countryArray);
+  const countryNames = countryArray.map(cn => cn[0]);
+
+  const getCountryCode = (countryName) => countryEntries[countryName];
+
   const schema = {
-    "cidade": {
-      "type": "string",
-      "enum": [],
-    },
-    "definitions": {
-      "$ref": "#definitions/relacao-pais-cidade-estado",
-    },
-    "$id": "http://gupy.io/s3-schema-pais-cidade-estado",
+    "properties": {
+        "country": {
+            "type": "string",
+            "enum": countryNames
+        },
+        "state": {
+            "type": "string",
+        },
+        "city": {
+            "type": "string",
+        },
+        "definitions": definitions,
+    }
   };
-  const ajv = new Ajv();
-  const a = ajv.getSchema("http://json-schema.org/draft-04/schema") || ajv.compile();
-  console.log(a);
+
   return (
     <div className="App">
-      {/*<Form schema={schema}*/}
-      {/*    onChange={console.log("changed")}*/}
-      {/*    onSubmit={console.log("submitted")}*/}
-      {/*    onError={console.log("errors")}*/}
-      {/*/>*/}
+      <Form schema={schema}
+          onChange={(event) => {
+              const code = getCountryCode(event.formData.country)
+              console.log(code)
+          }}
+          onSubmit={console.log("submitted")}
+          onError={console.log("errors")}
+      />
     </div>
   );
 }
