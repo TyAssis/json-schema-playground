@@ -1,7 +1,8 @@
 import Form from "@rjsf/core";
+import { useState } from 'react';
 
 import csc from 'country-state-city';
-import definitions from './definitions';
+// import definitions from './definitions';
 
 function App() {
   const countries = csc.getAllCountries();
@@ -14,7 +15,7 @@ function App() {
 
   const getCountryCode = (countryName) => countryEntries[countryName];
 
-  const schema = {
+  let [schema, setSchema] = useState({
     "properties": {
         "country": {
             "type": "string",
@@ -22,20 +23,44 @@ function App() {
         },
         "state": {
             "type": "string",
+            "enum": ['tay', 'yan'],
         },
-        "city": {
+        "text": {
             "type": "string",
-        },
-        "definitions": definitions,
+        }
     }
-  };
+  });
+  const [formData, setFormData] = useState({})
+
 
   return (
     <div className="App">
-      <Form schema={schema}
+        {console.log('cargou!')}
+      <Form
+          formData={formData}
+          schema={schema}
           onChange={(event) => {
               const code = getCountryCode(event.formData.country)
               console.log(code)
+              console.log(formData);
+              setFormData(event.formData)
+              if (code === "AF") {
+                  setSchema({
+                      "properties": {
+                          "country": {
+                              "type": "string",
+                              "enum": countryNames
+                          },
+                          "state": {
+                              "type": "string",
+                              "enum": ['joao', 'maria'],
+                          },
+                          "text": {
+                              "type": "string",
+                          }
+                      }
+                  })
+              }
           }}
           onSubmit={console.log("submitted")}
           onError={console.log("errors")}
