@@ -35,7 +35,6 @@ function App() {
 
   return (
     <div className="App">
-        {console.log('cargou!')}
       <Form
           formData={formData}
           schema={schema}
