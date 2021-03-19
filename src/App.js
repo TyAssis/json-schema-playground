@@ -2,7 +2,6 @@ import Form from "@rjsf/core";
 import { useState } from 'react';
 
 import csc from 'country-state-city';
-// import definitions from './definitions';
 
 function App() {
   const countries = csc.getAllCountries();

@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import App2 from './App2';
+import AppWithNPMLib from './AppWithNPMLib';
+import AppWithDefinitionObject from "./AppWithDefinitionObject";
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App2 />
+    <AppWithDefinitionObject />
   </React.StrictMode>,
   document.getElementById('root')
 );
